@@ -52,13 +52,13 @@ abstract class Organization
     /**
      * @ORM\OneToMany(targetEntity="Organization", mappedBy="parent")
      */
-    private $children;
+    protected $children;
 
     /**
      * @ORM\ManyToOne(targetEntity="Organization", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
      */
-    private $parent;
+    protected $parent;
 
     public function __construct()
     {

@@ -47,11 +47,6 @@ class Client
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\School", mappedBy="client")
-     */
-    private $schools;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Organization", mappedBy="client")
      */
     private $organizations;
@@ -59,7 +54,6 @@ class Client
     public function __construct()
     {
         $this->users = new ArrayCollection();
-        $this->schools = new ArrayCollection();
         $this->organizations = new ArrayCollection();
     }
 
@@ -163,37 +157,6 @@ class Client
     public function countUsers(): int
     {
         return count($this->users);
-    }
-
-    /**
-     * @return Collection|School[]
-     */
-    public function getSchools(): Collection
-    {
-        return $this->schools;
-    }
-
-    public function addSchool(School $school): self
-    {
-        if (!$this->schools->contains($school)) {
-            $this->schools[] = $school;
-            $school->setClient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSchool(School $school): self
-    {
-        if ($this->schools->contains($school)) {
-            $this->schools->removeElement($school);
-            // set the owning side to null (unless already changed)
-            if ($school->getClient() === $this) {
-                $school->setClient(null);
-            }
-        }
-
-        return $this;
     }
 
     /**

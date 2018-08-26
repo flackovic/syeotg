@@ -9,6 +9,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class SchoolNetwork
@@ -16,4 +17,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SchoolNetwork extends Organization
 {
+    /**
+     * @Assert\Type(type="App\Entity\District")
+     */
+    protected $parent;
+
+    /**
+     * @Assert\All({
+     *     @Assert\Type(type="App\Entity\School")
+     * })
+     */
+    protected $children;
 }
