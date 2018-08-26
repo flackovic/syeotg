@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Dictionary\StatusDictionary;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
@@ -48,6 +50,17 @@ class User extends \FOS\UserBundle\Model\User
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Organization", inversedBy="users")
+     */
+    private $organization;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->organization = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -131,5 +144,31 @@ class User extends \FOS\UserBundle\Model\User
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @return Collection|Organization[]
+     */
+    public function getOrganization(): Collection
+    {
+        return $this->organization;
+    }
+
+    public function addOrganization(Organization $organization): self
+    {
+        if (!$this->organization->contains($organization)) {
+            $this->organization[] = $organization;
+        }
+
+        return $this;
+    }
+
+    public function removeOrganization(Organization $organization): self
+    {
+        if ($this->organization->contains($organization)) {
+            $this->organization->removeElement($organization);
+        }
+
+        return $this;
     }
 }

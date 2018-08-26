@@ -22,7 +22,7 @@ class UserTest extends TestCase
         $this->clientMock = $this->createMock(Client::class);
     }
 
-    public function testUsertWillNotHaveUuidWhenCreated()
+    public function testUserWillNotHaveUuidWhenCreated()
     {
         $this->assertNull($this->user->getUuid());
     }
