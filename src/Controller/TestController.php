@@ -8,26 +8,23 @@
 
 namespace App\Controller;
 
-
-use App\Entity\Client;
 use App\Entity\District;
-use App\Entity\Organization;
 use App\Entity\School;
 use App\Entity\SchoolNetwork;
 use App\Entity\User;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TestController extends AbstractController
 {
     /**
      * @Route("/generate")
      */
-    public function generateOrganizationStructure(EntityManagerInterface $em)
+    public function generateOrganizationStructure(EntityManagerInterface $em, ValidatorInterface $validator)
     {
         $user = $this->getUser();
 
@@ -84,9 +81,10 @@ class TestController extends AbstractController
 
         $em->persist($district);
 
-        $em->flush();
+//        $em->flush();
 
-
+        $result = $validator->validate($firstSchool);
+        dump($result);
 
         return new Response('<html><body>Disi</body></html>');
     }
